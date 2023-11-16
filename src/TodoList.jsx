@@ -1,22 +1,23 @@
-import  { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, removeTodo, updateTodo } from './actions';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, removeTodo, updateTodo } from './reducers'; 
 
 const TodoList = () => {
-  const todos = useSelector(state => state.todos);
   const dispatch = useDispatch();
+  const todos = useSelector(state => state.todos.todos);
+
   const [text, setText] = useState('');
   const [editId, setEditId] = useState(null);
 
   const handleAddTodo = () => {
     if (text.trim()) {
-      dispatch(addTodo(text));
+      dispatch(addTodo({ text }));
       setText('');
     }
   };
 
   const handleRemoveTodo = (id) => {
-    dispatch(removeTodo(id));
+    dispatch(removeTodo({ id }));
   };
 
   const handleEditTodo = (id, text) => {
@@ -26,7 +27,7 @@ const TodoList = () => {
 
   const handleUpdateTodo = () => {
     if (text.trim()) {
-      dispatch(updateTodo(editId, text));
+      dispatch(updateTodo({ id: editId, text }));
       setText('');
       setEditId(null);
     }
@@ -62,4 +63,3 @@ const TodoList = () => {
 };
 
 export default TodoList;
-
